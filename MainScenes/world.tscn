@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Textures/backgroundColor.png" type="Texture" id=2]
+[ext_resource path="res://Textures/starBig.png" type="Texture" id=3]
+[ext_resource path="res://MainScenes/world.gd" type="Script" id=5]
+
+[node name="World" type="Node"]
+script = ExtResource( 5 )
+meteorSpawn = 1.0
+
+[node name="background" type="Sprite" parent="."]
+scale = Vector2( 6.02638, 6.69234 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="background"]
+position = Vector2( 76.4368, -0.119 )
+amount = 40
+lifetime = 8.0
+texture = ExtResource( 3 )
+emission_shape = 2
+emission_rect_extents = Vector2( 80, 1 )
+direction = Vector2( 0, 1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 40.0
+initial_velocity_random = 0.5
+angle = 45.0
+angle_random = 1.0
+scale_amount = 0.1
+scale_amount_random = 0.15
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 461.271, 827.394 )
+
+[node name="MeteorSpawnTimer" type="Timer" parent="."]
+one_shot = true
