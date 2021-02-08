@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends Area2D
 #USE CONTROL AND CLICK THE FUNCTION TO BRING UP HELP PAGE
 
 var plBullet := preload("res://Bullet/Bullet.tscn") #pl is short for preload
@@ -11,12 +11,13 @@ onready var fireDelayTimer := $FireDelayTimer
 export (int) var speed = 400
 export (float) var fireDelay = .1
 
+export (int) var health = 100
+
 var velocity := Vector2.ZERO
-
-
 
 func _ready():
 	add_to_group('allies')
+	$Area2D.connect("area_entered", self, "damage")
 
 func get_input():
 	velocity = Vector2.ZERO
@@ -30,7 +31,7 @@ func get_input():
 		velocity.y -= 1
 	velocity = velocity.normalized() * speed
 
-func _process(_delta):
+func _process(delta):
 	if velocity.x < 0:
 		animatedSprite.play("Left")
 	elif velocity.x > 0:
@@ -46,14 +47,16 @@ func _process(_delta):
 			bullet.global_position = gun.global_position
 			get_tree().current_scene.add_child(bullet)
 
+func damage(amount: int):
+	health -= amount
+	if health <= 0:
+		hide()
+		print("I am dead")
+
 # warning-ignore:unused_argument
 func _physics_process(delta):
 	get_input()
-	var collision_info = move_and_collide(velocity * delta)
-	if collision_info:
-		var collision_point = collision_info.position
-	
-	#velocity = move_and_slide(velocity)
+	velocity = move_and_slide(velocity)
 	#make sure we are within the screen
 	var viewRect := get_viewport_rect()
 	position.x = clamp(position.x, 0, viewRect.size.x)

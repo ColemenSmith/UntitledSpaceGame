@@ -7,7 +7,7 @@ export (int) var maxRotationRate = 20
 
 export (int) var health = 20
 
-var speed: int = 0 
+var speed: float = 0 
 var rotationRate: float = 0
 
 func _ready():
@@ -24,6 +24,11 @@ func damage(amount: int):
 	if health <= 0:
 		queue_free()
 
-
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
+
+func _on_Meteor_area_entered(area):
+	if area.is_in_group('allies'):
+		area.damage(20)
+		print("Meteor hit something")
+		queue_free()

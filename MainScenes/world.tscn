@@ -7,7 +7,6 @@
 
 [node name="World" type="Node"]
 script = ExtResource( 5 )
-meteorSpawn = 1.0
 
 [node name="background" type="Sprite" parent="."]
 scale = Vector2( 6.02638, 6.69234 )
@@ -35,4 +34,7 @@ scale_amount_random = 0.15
 position = Vector2( 461.271, 827.394 )
 
 [node name="MeteorSpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
 one_shot = true
